@@ -242,6 +242,13 @@ public class Song implements Cloneable {
 	public void stretch(double factor) {
 		assert wellFormed() : "invariant failed at start of stretch";
 		// TODO stretch each note in the song
+		for (int i = 0; i<manyItems;i++) {
+			if(data[i]!=null) {
+				if (data[i].getDuration()*factor<0) throw new IllegalArgumentException("Invalid duration found, song partially streched");
+				data[i].stretch(factor);
+			}
+		}
+		
 		assert wellFormed() : "invariant failed at end of stretch";
 	}
 
