@@ -208,6 +208,10 @@ public class Song implements Cloneable {
 	public void setName(String newName) {
 		assert wellFormed() : "invariant failed at start of setName";
 		// TODO
+		if (newName != null) {
+			this.name = newName;
+		}
+		
 		assert wellFormed() : "invariant failed at end of setName";
 	}
 
@@ -219,6 +223,10 @@ public class Song implements Cloneable {
 	public void setBPM(int newBPM) {
 		assert wellFormed() : "invariant failed at start of setBPM";
 		// TODO
+		if (newBPM>MAX_BPM||newBPM<MIN_BPM) throw new IllegalArgumentException("BPM is an invalid value");
+		if (newBPM != this.bpm) {
+			this.bpm = newBPM;
+		}
 		assert wellFormed() : "invariant failed at end of setBPM";
 	}
 
