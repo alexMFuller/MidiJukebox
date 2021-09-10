@@ -103,6 +103,9 @@ public class Song implements Cloneable {
 	public Song( )
 	{
 		// TODO: Implemented by student.
+		name = DEFAULT_NAME;
+		bpm = DEFAULT_BPM;
+		data= new Note[INITIAL_CAPACITY];
 		assert wellFormed() : "invariant failed at end of constructor";
 	}
 
@@ -126,6 +129,12 @@ public class Song implements Cloneable {
 	public Song(String name, int bpm)
 	{
 		// TODO: Implemented by student.
+		if (name == null) throw new IllegalArgumentException("Name is null");
+		if (bpm>MAX_BPM||bpm<MIN_BPM) throw new IllegalArgumentException("BPM is an invalid value");
+		this.name = name;
+		this.bpm = bpm;
+		data= new Note[INITIAL_CAPACITY];
+		
 		assert wellFormed() : "invariant failed at end of constructor";
 	}
 
@@ -147,7 +156,12 @@ public class Song implements Cloneable {
 	 **/   
 	public Song(String n, int beats, int initialCapacity)
 	{
-		
+		if (n == null) throw new IllegalArgumentException("Name is null");
+		if (beats>MAX_BPM||beats<MIN_BPM) throw new IllegalArgumentException("BPM is an invalid value");
+		if (initialCapacity<1) throw new IllegalArgumentException("Initial Capacity is invalid");
+		this.name = n;
+		this.bpm = beats;
+		data= new Note[initialCapacity];
 		// TODO: Implemented by student.
 		assert wellFormed() : "invariant failed at end of constructor";
 	}
@@ -179,6 +193,11 @@ public class Song implements Cloneable {
 		assert wellFormed() : "invariant failed at start of getDuration";
 		double result = 0;
 		// TODO
+		for (int i = 0; i<manyItems;i++) {
+			if(data[i]!=null) {
+				result = result+data[i].getDuration()
+			}
+		}
 		return result;
 	}
 
