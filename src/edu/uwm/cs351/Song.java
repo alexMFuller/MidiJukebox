@@ -70,18 +70,19 @@ public class Song implements Cloneable {
 
 		// 2. _bpm is in valid range: [MIN_BPM, MAX_BPM]
 		// TODO
-
+		if (bpm>MAX_BPM||bpm<MIN_BPM) return report("BPM is out of range");
 		// 3. data array is never null
 		// TODO
-
+		if (data==null) return report ("data array is null");
 		// 4. The data array has at least as many items in it as manyItems
 		//    claims the song has
+		if (data.length<manyItems) return report("manyItems is too large for the given data array");
 		// TODO
-
+		
 		// 5. currentIndex is never negative and never more than the number of
 		//    items in the song.
 		// TODO	
-
+		if (currentIndex<0||currentIndex>manyItems) return report("invalid current index");
 		// If no problems discovered, return true
 		return true;
 	}
