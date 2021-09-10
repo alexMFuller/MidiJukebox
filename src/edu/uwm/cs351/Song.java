@@ -265,6 +265,12 @@ public class Song implements Cloneable {
 	public void transpose(int interval) {
 		assert wellFormed() : "invariant failed at start of transpose";
 		// TODO transpose each note in the song
+		for (int i = 0; i<manyItems;i++) {
+			if(data[i]!=null) {
+				if (data[i].getMidiPitch()+interval>127||data[i].getMidiPitch()+interval<0) throw new IllegalArgumentException("Invalid transposal found, song partially streched");
+				data[i].transpose(interval);
+			}
+		}
 		assert wellFormed() : "invariant failed at end of transpose";
 	}
 
