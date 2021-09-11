@@ -106,6 +106,7 @@ public class Song implements Cloneable {
 		name = DEFAULT_NAME;
 		bpm = DEFAULT_BPM;
 		data= new Note[INITIAL_CAPACITY];
+		
 		assert wellFormed() : "invariant failed at end of constructor";
 	}
 
@@ -162,6 +163,7 @@ public class Song implements Cloneable {
 		this.name = n;
 		this.bpm = beats;
 		data= new Note[initialCapacity];
+		
 		// TODO: Implemented by student.
 		assert wellFormed() : "invariant failed at end of constructor";
 	}
@@ -285,6 +287,7 @@ public class Song implements Cloneable {
 	{
 		assert wellFormed() : "invariant failed at start of size";
 		// TODO: Implemented by student.
+		return manyItems;
 	}
 
 	/**
@@ -299,6 +302,8 @@ public class Song implements Cloneable {
 	{
 		assert wellFormed() : "invariant failed at start of start";
 		// TODO: Implemented by student.
+		if (data==null) currentIndex= manyItems;
+		else currentIndex=0;
 		assert wellFormed() : "invariant failed at end of start";
 	}
 
@@ -313,6 +318,8 @@ public class Song implements Cloneable {
 	public boolean hasCurrent( )
 	{
 		assert wellFormed() : "invariant failed at start of hasCurrent";
+		
+		return currentIndex!=manyItems;
 		// TODO: Implemented by student.
 	}
 
@@ -332,6 +339,8 @@ public class Song implements Cloneable {
 		assert wellFormed() : "invariant failed at start of getCurrent";
 		// TODO: Implemented by student.
 		// Don't change "this"!
+		if (!hasCurrent()) throw new IllegalArgumentException("No current value");
+		return data[currentIndex];
 	}
 
 	/**
@@ -353,6 +362,8 @@ public class Song implements Cloneable {
 	{
 		assert wellFormed() : "invariant failed at start of advance";
 		// TODO: Implemented by student.
+		if (!hasCurrent()) throw new IllegalArgumentException("No current value");
+		currentIndex++;
 		assert wellFormed() : "invariant failed at end of advance";
 	}
 
