@@ -242,6 +242,10 @@ public class Jukebox implements MetaEventListener {
   		double stretch = getStretch(false);
   		try {
   			// TODO: Modify the song as requested by the user
+  			song.transpose(transpose);
+  			song.stretch(stretch);
+  			
+  			
   		} catch (IllegalArgumentException ex) {
   			JOptionPane.showMessageDialog(null, "Song modification failed: " + ex, "Playback warning", JOptionPane.WARNING_MESSAGE);
   		}
@@ -280,6 +284,8 @@ public class Jukebox implements MetaEventListener {
   				if (line.equals("") || line.startsWith("[")) continue;
   				Note note = new Note(line);
   				// TODO: Add note to the END of the sequence.  (or song plays backward!)
+  				song.insert(note);
+  				song.advance();
   			}
 
   			// You may compare this output against the song file to check that song is of correct size and order.
@@ -359,9 +365,13 @@ public class Jukebox implements MetaEventListener {
             sequence = new Sequence(Sequence.PPQ, TICKS_PER_QUARTER_NOTE);
             Track track = sequence.createTrack();
             long timestamp = 0;
+            song.start();
+            for (int i = 0; i<song.size();i++) {
+            
             putNote(track, song.getCurrent(), timestamp);
             timestamp = timestamp + toTicks(song.getCurrent().getDuration());
             song.advance();
+            }
             // TODO: For each note in the sequence
             // TODO:   call putNote on the track with the current time stamp
             // TODO:   and then increment the timestamp by the ticks (see toTicks)
