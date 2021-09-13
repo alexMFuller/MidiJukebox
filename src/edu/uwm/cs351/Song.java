@@ -598,10 +598,18 @@ public class Song implements Cloneable {
 	{
 		assert s1.wellFormed() : "invariant of s1 failed at start of catenation";
 		assert s2.wellFormed() : "invariant of s2 failed at start of catenation";
-		Song res;
+		
 		if (s1==null) throw new NullPointerException("s1 is null");
 		if (s2==null) throw new NullPointerException("s2 is null");
 		
+		Song res = new Song(s1.getName()+" and "+s2.getName(), (s1.getBPM()+s2.getBPM())/2,s1.manyItems+s2.manyItems);
+		
+		for (int i = 0;i<s1.manyItems;i++) {
+			res.data[i] = s1.data[i];
+		}
+		for (int i = s1.manyItems;i<s2.manyItems+s1.manyItems-1;i++) {
+			res.data[i] = s2.data[i];
+		}
 		
 		// TODO: Implemented by student.
 		assert s1.wellFormed() : "invariant of s1 failed at end of catenation";
