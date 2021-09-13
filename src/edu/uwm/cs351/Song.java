@@ -516,14 +516,14 @@ public class Song implements Cloneable {
 		if (addend==null) throw new NullPointerException("addend is null");
 		ensureCapacity(manyItems+addend.manyItems);
 		int i;
-
-		for (i=addend.manyItems;i>0;--i) {
+		Song k = addend.clone();
+		for (i=k.manyItems;i>0;--i) {
 			int j;
 			if(hasCurrent()) {
 			for (j=manyItems; j>currentIndex; --j) {
 				data[j] = data[j-1];
 			}
-			data[j] = addend.data[i-1];
+			data[j] = k.data[i-1];
 			manyItems++;
 			}
 			
@@ -609,13 +609,15 @@ public class Song implements Cloneable {
 		
 		Song res = new Song(s1.getName()+" and "+s2.getName(), (s1.getBPM()+s2.getBPM())/2,s1.manyItems+s2.manyItems);
 		
-		for (int i = 0;i<s1.manyItems;i++) {
-			res.insert(s1.data[i]);
+		res.insertAll(s2);
+		res.insertAll(s1);
 			
-		}
-		for (int i = s1.manyItems;i<s2.manyItems+s1.manyItems-1;i++) {
-			res.insert(s2.data[i]);
-		}
+		
+		
+		
+		
+		res.currentIndex = res.manyItems;
+		
 		
 		// TODO: Implemented by student.
 		assert s1.wellFormed() : "invariant of s1 failed at end of catenation";
