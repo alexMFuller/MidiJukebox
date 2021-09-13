@@ -167,7 +167,7 @@ public class Song implements Cloneable {
 	{
 		if (n == null) throw new IllegalArgumentException("Name is null");
 		if (beats>MAX_BPM||beats<MIN_BPM) throw new IllegalArgumentException("BPM is an invalid value");
-		if (initialCapacity<1) throw new IllegalArgumentException("Initial Capacity is invalid");
+		if (initialCapacity<0) throw new IllegalArgumentException("Initial Capacity is invalid");
 		this.name = n;
 		this.bpm = beats;
 		data= new Note[initialCapacity];
@@ -214,13 +214,14 @@ public class Song implements Cloneable {
 	/**
 	 * Sets the name of the song.
 	 * @param newName the new name, must not be null
+	 * @throws IllegalArgumentException in the new name is null
 	 */
 	public void setName(String newName) {
 		assert wellFormed() : "invariant failed at start of setName";
 		// TODO
-		if (newName != null) {
-			this.name = newName;
-		}
+		if (newName == null) throw new IllegalArgumentException("name is null");
+		this.name = newName;
+		
 		
 		assert wellFormed() : "invariant failed at end of setName";
 	}
@@ -330,7 +331,7 @@ public class Song implements Cloneable {
 	{
 		assert wellFormed() : "invariant failed at start of hasCurrent";
 		
-		return currentIndex!=manyItems;
+		return !(currentIndex>=manyItems);
 		// TODO: Implemented by student.
 	}
 
@@ -376,6 +377,7 @@ public class Song implements Cloneable {
 		if (!hasCurrent()) throw new IllegalStateException("No current value");
 		
 		currentIndex++;
+		
 		assert wellFormed() : "invariant failed at end of advance";
 	}
 
@@ -449,14 +451,9 @@ public class Song implements Cloneable {
 		}
 		else {
 			
-			if (currentIndex>0) {
+			data[manyItems++] = element;
 			
-			data[currentIndex] = element;
-			}
-			else {
-				data[currentIndex] = element;
-			}
-			manyItems++;
+
 		}
 		assert wellFormed() : "invariant failed at end of insert";
 	}
@@ -602,6 +599,10 @@ public class Song implements Cloneable {
 		assert s1.wellFormed() : "invariant of s1 failed at start of catenation";
 		assert s2.wellFormed() : "invariant of s2 failed at start of catenation";
 		Song res;
+		if (s1==null) throw new NullPointerException("s1 is null");
+		if (s2==null) throw new NullPointerException("s2 is null");
+		
+		
 		// TODO: Implemented by student.
 		assert s1.wellFormed() : "invariant of s1 failed at end of catenation";
 		assert s2.wellFormed() : "invariant of s2 failed at end of catenation";
