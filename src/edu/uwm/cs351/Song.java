@@ -255,7 +255,7 @@ public class Song implements Cloneable {
 		for (int i = 0; i<manyItems;i++) {
 			if(data[i]!=null) {
 				if (data[i].getDuration()*factor<0) throw new IllegalArgumentException("Invalid duration found, song partially streched");
-				data[i].stretch(factor);
+				data[i] = data[i].stretch(factor);
 			}
 		}
 		
@@ -278,7 +278,7 @@ public class Song implements Cloneable {
 		for (int i = 0; i<manyItems;i++) {
 			if(data[i]!=null) {
 				if (data[i].getMidiPitch()+interval>127||data[i].getMidiPitch()+interval<0) throw new IllegalArgumentException("Invalid transposal found, song partially streched");
-				data[i].transpose(interval);
+				data[i] = data[i].transpose(interval);
 			}
 		}
 		assert wellFormed() : "invariant failed at end of transpose";
@@ -311,7 +311,10 @@ public class Song implements Cloneable {
 		assert wellFormed() : "invariant failed at start of start";
 		// TODO: Implemented by student.
 		if (data==null) currentIndex= manyItems;
-		else currentIndex=0;
+		else {
+			currentIndex=0;
+			
+		}
 		assert wellFormed() : "invariant failed at end of start";
 	}
 
