@@ -347,7 +347,7 @@ public class Song implements Cloneable {
 		assert wellFormed() : "invariant failed at start of getCurrent";
 		// TODO: Implemented by student.
 		// Don't change "this"!
-		if (!hasCurrent()) throw new IllegalArgumentException("No current value");
+		if (!hasCurrent()) throw new IllegalStateException("No current value");
 		return data[currentIndex];
 	}
 
@@ -370,7 +370,7 @@ public class Song implements Cloneable {
 	{
 		assert wellFormed() : "invariant failed at start of advance";
 		// TODO: Implemented by student.
-		if (!hasCurrent()) throw new IllegalArgumentException("No current value");
+		if (!hasCurrent()) throw new IllegalStateException("No current value");
 		
 		currentIndex++;
 		assert wellFormed() : "invariant failed at end of advance";
@@ -477,6 +477,11 @@ public class Song implements Cloneable {
 	{
 		assert wellFormed() : "invariant failed at start of removeCurrent";
 		// TODO: Implemented by student.
+		if (!hasCurrent()) throw new IllegalStateException("No current value");
+		manyItems--;
+		for (int i =0;i<manyItems;i++) {
+			data[i]=data[i+1];
+		}
 		assert wellFormed() : "invariant failed at end of removeCurrent";
 	}
 
@@ -508,8 +513,27 @@ public class Song implements Cloneable {
 		// (It is possible to write code that works for this case AND 
 		// the normal case, but you have to be very careful.)
 		if (addend==null) throw new NullPointerException("addend is null");
+		ensureCapacity(manyItems+addend.manyItems);
 		for (int i=0;i<addend.manyItems;i++) {
-			this.insert(addend.data[i]);
+			int j;
+			if(hasCurrent()) {
+			for (j=manyItems; j>currentIndex; --j) {
+				data[j] = data[j-1];
+			}
+			data[j] = addend.data[i];
+			manyItems++;
+			}
+			else {
+				
+				if (currentIndex>0) {
+				
+				data[currentIndex] = addend.data[i];
+				}
+				else {
+					data[currentIndex] = addend.data[i];
+				}
+				manyItems++;
+			}
 		}
 		
 		
