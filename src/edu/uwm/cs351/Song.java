@@ -1,5 +1,13 @@
 // This is an assignment for students to complete after reading Chapter 3 of
 // "Data Structures and Other Objects Using Java" by Michael Main.
+/*
+ * 
+ */
+
+
+/* Alex Fuller
+ * CS 351
+ */
 
 package edu.uwm.cs351;
 
@@ -197,7 +205,7 @@ public class Song implements Cloneable {
 		// TODO
 		for (int i = 0; i<manyItems;i++) {
 			if(data[i]!=null) {
-				result = result+data[i].getDuration()
+				result = result+data[i].getDuration();
 			}
 		}
 		return result;
@@ -363,6 +371,7 @@ public class Song implements Cloneable {
 		assert wellFormed() : "invariant failed at start of advance";
 		// TODO: Implemented by student.
 		if (!hasCurrent()) throw new IllegalArgumentException("No current value");
+		
 		currentIndex++;
 		assert wellFormed() : "invariant failed at end of advance";
 	}
@@ -388,6 +397,22 @@ public class Song implements Cloneable {
 	{
 		// TODO: Implemented by student.
 		// NB: do not check invariant
+		int newCap = 0;
+		Note[] newData;
+		if (data.length < minimumCapacity) {
+			if (data.length*2<minimumCapacity) {
+				newData= new Note[ minimumCapacity];
+				
+			}
+			else {
+				newData = new Note[data.length*2];
+			}
+			for (int i = 0; i<manyItems;i++) {
+				newData[i] = data[i];
+			}
+			data = newData;
+			
+		}
 	}
 
 	/**
@@ -409,6 +434,27 @@ public class Song implements Cloneable {
 	{
 		assert wellFormed() : "invariant failed at start of insert";
 		// TODO: Implemented by student.
+		ensureCapacity(manyItems+1);
+		if(hasCurrent()) {
+			int i;
+			for (i=manyItems; i>currentIndex; --i) {
+				data[i] = data[i-1];
+			}
+			data[i] = element;
+			manyItems++;
+			
+		}
+		else {
+			
+			if (currentIndex>0) {
+			
+			data[currentIndex] = element;
+			}
+			else {
+				data[currentIndex] = element;
+			}
+			manyItems++;
+		}
 		assert wellFormed() : "invariant failed at end of insert";
 	}
 
@@ -458,8 +504,15 @@ public class Song implements Cloneable {
 		assert wellFormed() : "invariant failed at start of insertAll";
 		// TODO: Implemented by student.
 		// Watch out for the this==addend case!
+		
 		// (It is possible to write code that works for this case AND 
 		// the normal case, but you have to be very careful.)
+		if (addend==null) throw new NullPointerException("addend is null");
+		for (int i=0;i<addend.manyItems;i++) {
+			this.insert(addend.data[i]);
+		}
+		
+		
 		assert wellFormed() : "invariant failed at end of insertAll";
 		assert addend.wellFormed() : "invariant of addend broken in insertAll";
 	}
