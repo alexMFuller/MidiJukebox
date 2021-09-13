@@ -359,7 +359,9 @@ public class Jukebox implements MetaEventListener {
             sequence = new Sequence(Sequence.PPQ, TICKS_PER_QUARTER_NOTE);
             Track track = sequence.createTrack();
             long timestamp = 0;
-            
+            putNote(track, song.getCurrent(), timestamp);
+            timestamp = timestamp + toTicks(song.getCurrent().getDuration());
+            song.advance();
             // TODO: For each note in the sequence
             // TODO:   call putNote on the track with the current time stamp
             // TODO:   and then increment the timestamp by the ticks (see toTicks)

@@ -612,12 +612,7 @@ public class Song implements Cloneable {
 		res.insertAll(s2);
 		res.insertAll(s1);
 			
-		
-		
-		
-		
 		res.currentIndex = res.manyItems;
-		
 		
 		// TODO: Implemented by student.
 		assert s1.wellFormed() : "invariant of s1 failed at end of catenation";
