@@ -479,9 +479,10 @@ public class Song implements Cloneable {
 		// TODO: Implemented by student.
 		if (!hasCurrent()) throw new IllegalStateException("No current value");
 		manyItems--;
-		for (int i =0;i<manyItems;i++) {
+		for (int i = currentIndex;i<manyItems;i++) {
 			data[i]=data[i+1];
 		}
+		
 		assert wellFormed() : "invariant failed at end of removeCurrent";
 	}
 
@@ -514,23 +515,27 @@ public class Song implements Cloneable {
 		// the normal case, but you have to be very careful.)
 		if (addend==null) throw new NullPointerException("addend is null");
 		ensureCapacity(manyItems+addend.manyItems);
-		for (int i=0;i<addend.manyItems;i++) {
+		int i;
+
+		for (i=addend.manyItems;i>0;--i) {
 			int j;
 			if(hasCurrent()) {
 			for (j=manyItems; j>currentIndex; --j) {
 				data[j] = data[j-1];
 			}
-			data[j] = addend.data[i];
+			data[j] = addend.data[i-1];
 			manyItems++;
 			}
+			
+			
 			else {
 				
 				if (currentIndex>0) {
 				
-				data[currentIndex] = addend.data[i];
+				data[currentIndex] = addend.data[i-1];
 				}
 				else {
-					data[currentIndex] = addend.data[i];
+					data[currentIndex] = addend.data[i-1];
 				}
 				manyItems++;
 			}
