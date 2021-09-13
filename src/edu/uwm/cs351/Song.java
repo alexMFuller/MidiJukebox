@@ -605,10 +605,11 @@ public class Song implements Cloneable {
 		Song res = new Song(s1.getName()+" and "+s2.getName(), (s1.getBPM()+s2.getBPM())/2,s1.manyItems+s2.manyItems);
 		
 		for (int i = 0;i<s1.manyItems;i++) {
-			res.data[i] = s1.data[i];
+			res.insert(s1.data[i]);
+			
 		}
 		for (int i = s1.manyItems;i<s2.manyItems+s1.manyItems-1;i++) {
-			res.data[i] = s2.data[i];
+			res.insert(s2.data[i]);
 		}
 		
 		// TODO: Implemented by student.
